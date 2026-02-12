@@ -157,12 +157,12 @@ const VoteButton: React.FC<VoteButtonProps> = ({
                 You need to own {spaceId ? `${spaceId.toUpperCase().split('.')[0]} governance tokens` : 'the DAO governance token'} to participate in voting.
               </p>
               <a
-                href={`https://www.google.com/search?q=how+to+buy+${spaceId ? spaceId.split('.')[0] : 'DAO'}+token`}
+                href={`https://app.uniswap.org/#/swap?outputCurrency=${spaceId ? spaceId.split('.')[0] : 'token'}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-amber-700 hover:text-amber-900 font-semibold underline"
+                className="inline-flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg font-semibold text-xs hover:from-pink-600 hover:to-purple-600 transition-all shadow-sm"
               >
-                How to get tokens →
+                Buy on Uniswap →
               </a>
             </div>
           )}
