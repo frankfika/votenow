@@ -44,45 +44,6 @@ function getTokenSymbol(spaceId?: string): string {
   return spaceId.split('.')[0].toUpperCase();
 }
 
-// Buy token buttons component - Uniswap + 1inch
-function BuyTokenButtons({ spaceId }: { spaceId?: string }) {
-  const tokenSymbol = getTokenSymbol(spaceId);
-  const tokenAddress = getTokenAddress(spaceId);
-
-  // Uniswap link - with token address if known
-  const uniswapHref = tokenAddress
-    ? `https://app.uniswap.org/swap?outputCurrency=${tokenAddress}`
-    : 'https://app.uniswap.org/swap';
-
-  // 1inch link - with token address if known
-  const oneInchHref = tokenAddress
-    ? `https://app.1inch.io/#/1/simple/swap/ETH/${tokenAddress}`
-    : 'https://app.1inch.io/';
-
-  return (
-    <div className="flex gap-2">
-      <a
-        href={uniswapHref}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 rounded-lg font-semibold text-xs transition-all bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:from-pink-600 hover:to-purple-600 shadow-sm"
-      >
-        Buy {tokenSymbol}
-        <ExternalLink size={12} />
-      </a>
-      <a
-        href={oneInchHref}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 rounded-lg font-semibold text-xs transition-all bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:from-blue-600 hover:to-cyan-600 shadow-sm"
-      >
-        1inch DEX
-        <ExternalLink size={12} />
-      </a>
-    </div>
-  );
-}
-
 interface VoteButtonProps {
   proposalId: string;
   recommendation: string;
@@ -282,42 +243,46 @@ const VoteButton: React.FC<VoteButtonProps> = ({
             </button>
           </div>
           {hasNoVP && (
-            <div className="text-center max-w-sm mx-auto bg-white border border-zinc-200 rounded-xl p-4 shadow-sm">
-              {isOnChain ? (
-                // OnChain governance - can buy tokens now!
-                <>
-                  <div className="flex items-center justify-center gap-2 mb-3">
-                    <span className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
-                      <span className="text-emerald-600 text-lg">✓</span>
-                    </span>
-                    <span className="font-bold text-zinc-900">Ready to vote</span>
-                  </div>
-                  <p className="text-xs text-zinc-600 mb-3">
-                    Get {getTokenSymbol(spaceId)} tokens to cast your vote
-                  </p>
-                  <BuyTokenButtons spaceId={spaceId} />
-                </>
-              ) : (
-                // Snapshot governance - historical snapshot
-                <>
-                  <div className="flex items-center justify-center gap-2 mb-3">
-                    <span className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center">
-                      <span className="text-amber-600 text-lg">✕</span>
-                    </span>
-                    <span className="font-bold text-zinc-900">Missed the snapshot</span>
-                  </div>
-                  <p className="text-xs text-zinc-600 mb-1">
-                    Snapshot taken at block{' '}
-                    <span className="font-mono font-semibold bg-zinc-100 px-1.5 py-0.5 rounded">
-                      {snapshotBlock || 'unknown'}
-                    </span>
-                  </p>
-                  <p className="text-[10px] text-zinc-400 mb-4">
-                    You didn't hold {getTokenSymbol(spaceId)} at that time
-                  </p>
-                  <BuyTokenButtons spaceId={spaceId} />
-                </>
-              )}
+            <div className="text-[10px] text-zinc-500 text-center max-w-sm mx-auto leading-relaxed bg-amber-50 border border-amber-100 rounded-lg p-3 space-y-2">
+              <p className="mb-1">
+                <span className="font-semibold text-amber-700">Why can't I vote?</span>
+              </p>
+              <p className="mb-2">
+                Snapshot voting requires holding the DAO's governance tokens at the proposal's snapshot block height.
+                You need to own <span className="font-bold text-amber-800">{getTokenSymbol(spaceId)}</span> tokens to participate in voting.
+              </p>
+              <p className="text-amber-600 font-semibold mb-2">
+                💡 Any amount works - your voting power scales with your holdings
+              </p>
+              <div className="flex gap-2 justify-center">
+                {getTokenAddress(spaceId) ? (
+                  <a
+                    href={`https://app.uniswap.org/swap?outputCurrency=${getTokenAddress(spaceId)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg font-semibold text-xs hover:from-pink-600 hover:to-purple-600 transition-all shadow-sm"
+                  >
+                    Buy {getTokenSymbol(spaceId)} on Uniswap →
+                  </a>
+                ) : (
+                  <a
+                    href={`https://www.google.com/search?q=how+to+buy+${getTokenSymbol(spaceId)}+token`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg font-semibold text-xs hover:from-pink-600 hover:to-purple-600 transition-all shadow-sm"
+                  >
+                    Search how to buy {getTokenSymbol(spaceId)} →
+                  </a>
+                )}
+                <a
+                  href={`https://app.1inch.io/`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-lg font-semibold text-xs hover:from-blue-600 hover:to-cyan-600 transition-all shadow-sm"
+                >
+                  1inch DEX →
+                </a>
+              </div>
             </div>
           )}
         </div>
