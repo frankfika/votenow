@@ -3,6 +3,20 @@ import { useWallet } from '../hooks/useWallet';
 import { useSnapshotVote } from '../hooks/useSnapshotVote';
 import { Check, X, Loader2, ExternalLink, AlertTriangle, Award } from 'lucide-react';
 
+// DAO space -> token mapping
+const SPACE_TO_TOKEN: Record<string, string> = {
+  'aave.eth': 'AAVE',
+  'aavedao.eth': 'AAVE',
+  'uniswapgovernance.eth': 'UNI',
+  'ens.eth': 'ENS',
+  'gitcoindao.eth': 'GTC',
+  'olympusdao.eth': 'OHM',
+  'lido-snapshot.eth': 'LDO',
+  'compoundgovernance.eth': 'COMP',
+  'balancer.eth': 'BAL',
+  'snapshot.org': 'ETH', // fallback
+};
+
 interface VoteButtonProps {
   proposalId: string;
   recommendation: string;
@@ -154,14 +168,14 @@ const VoteButton: React.FC<VoteButtonProps> = ({
               </p>
               <p className="mb-2">
                 Snapshot voting requires holding the DAO's governance tokens at the proposal's snapshot block height.
-                You need to own <span className="font-bold text-amber-800">{spaceId ? `${spaceId.toUpperCase().split('.')[0]}` : 'governance'}</span> tokens to participate in voting.
+                You need to own <span className="font-bold text-amber-800">{spaceId && SPACE_TO_TOKEN[spaceId] ? SPACE_TO_TOKEN[spaceId] : spaceId ? spaceId.toUpperCase().split('.')[0] : 'governance'}</span> tokens to participate in voting.
               </p>
               <p className="text-amber-600 font-semibold mb-2">
                 💡 Any amount works - your voting power scales with your holdings
               </p>
               <div className="flex gap-2 justify-center">
                 <a
-                  href={`https://app.uniswap.org/#/swap?outputCurrency=${spaceId ? spaceId.split('.')[0] : ''}`}
+                  href={`https://app.uniswap.org/#/swap?outputCurrency=${spaceId && SPACE_TO_TOKEN[spaceId] ? SPACE_TO_TOKEN[spaceId] : ''}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg font-semibold text-xs hover:from-pink-600 hover:to-purple-600 transition-all shadow-sm"
@@ -169,7 +183,7 @@ const VoteButton: React.FC<VoteButtonProps> = ({
                   Buy on Uniswap →
                 </a>
                 <a
-                  href={`https://app.1inch.io/#/1/simple/swap/ETH`}
+                  href={`https://app.1inch.io/#/1/simple/swap/ETH${spaceId && SPACE_TO_TOKEN[spaceId] ? `/${SPACE_TO_TOKEN[spaceId]}` : ''}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-lg font-semibold text-xs hover:from-blue-600 hover:to-cyan-600 transition-all shadow-sm"
