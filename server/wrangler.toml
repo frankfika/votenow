@@ -1,5 +1,5 @@
 name = "votenow-api"
-main = "src/worker.ts"
+main = "src/worker-simple.ts"
 compatibility_date = "2024-01-01"
 
 # Environment variables (set via wrangler CLI or dashboard)
