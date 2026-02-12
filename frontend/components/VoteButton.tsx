@@ -3,15 +3,34 @@ import { useWallet } from '../hooks/useWallet';
 import { useSnapshotVote } from '../hooks/useSnapshotVote';
 import { Check, X, Loader2, ExternalLink, AlertTriangle, Award } from 'lucide-react';
 
-// DAO space -> token mapping
-const SPACE_TO_TOKEN: Record<string, string> = {
+// DAO space -> token contract address mapping (for Uniswap links)
+const SPACE_TO_TOKEN_ADDRESS: Record<string, string> = {
+  'aave.eth': '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9', // AAVE
+  'aavedao.eth': '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9', // AAVE
+  'uniswapgovernance.eth': '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984', // UNI
+  'uniswap': '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984', // UNI
+  'ens.eth': '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72', // ENS
+  'gitcoindao.eth': '0xDe30da39c46104798bB5aA3fe8B9e0e1F348163F', // GTC
+  'lido-snapshot.eth': '0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32', // LDO
+  'compoundgovernance.eth': '0xc00e94Cb662C3520282E6f5717214004A7f26888', // COMP
+  'balancer.eth': '0xba100000625a3754423978a60c9317c58a424e3D', // BAL
+  'curve.eth': '0xD533a949740bb3306d119CC777fa900bA034cd52', // CRV
+  'yearn': '0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e', // YFI
+  'sushigov.eth': '0x6B3595068778DD592e39A122f4f5a5cF09C90fE2', // SUSHI
+  'arbitrumfoundation.eth': '0x912CE59144191C1204E64559FE8253a0e49E6548', // ARB
+  'opcollective.eth': '0x4200000000000000000000000000000000000042', // OP
+  'stgdao.eth': '0xAf5191B0De278C7286d6C7CC6ab6BB8A73bA2Cd6', // STG
+  'gmx.eth': '0xfc5A1A6EB076a2C7aD06eD22C90d7E710E35ad0a', // GMX
+};
+
+// DAO space -> token symbol (for display)
+const SPACE_TO_TOKEN_SYMBOL: Record<string, string> = {
   'aave.eth': 'AAVE',
   'aavedao.eth': 'AAVE',
   'uniswapgovernance.eth': 'UNI',
   'uniswap': 'UNI',
   'ens.eth': 'ENS',
   'gitcoindao.eth': 'GTC',
-  'olympusdao.eth': 'OHM',
   'lido-snapshot.eth': 'LDO',
   'compoundgovernance.eth': 'COMP',
   'balancer.eth': 'BAL',
@@ -20,28 +39,46 @@ const SPACE_TO_TOKEN: Record<string, string> = {
   'sushigov.eth': 'SUSHI',
   'arbitrumfoundation.eth': 'ARB',
   'opcollective.eth': 'OP',
-  'safe.eth': 'SAFE',
   'stgdao.eth': 'STG',
-  'snapshot.org': 'ETH',
+  'gmx.eth': 'GMX',
 };
 
-// Get token symbol from spaceId with fallback
+// Get token symbol for display
 function getTokenSymbol(spaceId?: string): string {
-  if (!spaceId) return '';
+  if (!spaceId) return 'governance';
 
   // Try direct mapping
-  if (SPACE_TO_TOKEN[spaceId]) {
-    return SPACE_TO_TOKEN[spaceId];
+  if (SPACE_TO_TOKEN_SYMBOL[spaceId]) {
+    return SPACE_TO_TOKEN_SYMBOL[spaceId];
   }
 
   // Try removing .eth suffix
   const withoutEth = spaceId.replace('.eth', '');
-  if (SPACE_TO_TOKEN[withoutEth]) {
-    return SPACE_TO_TOKEN[withoutEth];
+  if (SPACE_TO_TOKEN_SYMBOL[withoutEth]) {
+    return SPACE_TO_TOKEN_SYMBOL[withoutEth];
   }
 
   // Fallback: capitalize first part
   return spaceId.split('.')[0].toUpperCase();
+}
+
+// Get token contract address for Uniswap
+function getTokenAddress(spaceId?: string): string {
+  if (!spaceId) return '';
+
+  // Try direct mapping
+  if (SPACE_TO_TOKEN_ADDRESS[spaceId]) {
+    return SPACE_TO_TOKEN_ADDRESS[spaceId];
+  }
+
+  // Try removing .eth suffix
+  const withoutEth = spaceId.replace('.eth', '');
+  if (SPACE_TO_TOKEN_ADDRESS[withoutEth]) {
+    return SPACE_TO_TOKEN_ADDRESS[withoutEth];
+  }
+
+  // No fallback - if we don't know the address, return empty
+  return '';
 }
 
 interface VoteButtonProps {
@@ -201,14 +238,25 @@ const VoteButton: React.FC<VoteButtonProps> = ({
                 💡 Any amount works - your voting power scales with your holdings
               </p>
               <div className="flex gap-2 justify-center">
-                <a
-                  href={`https://app.uniswap.org/swap?outputCurrency=${getTokenSymbol(spaceId)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg font-semibold text-xs hover:from-pink-600 hover:to-purple-600 transition-all shadow-sm"
-                >
-                  Buy on Uniswap →
-                </a>
+                {getTokenAddress(spaceId) ? (
+                  <a
+                    href={`https://app.uniswap.org/swap?outputCurrency=${getTokenAddress(spaceId)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg font-semibold text-xs hover:from-pink-600 hover:to-purple-600 transition-all shadow-sm"
+                  >
+                    Buy {getTokenSymbol(spaceId)} on Uniswap →
+                  </a>
+                ) : (
+                  <a
+                    href={`https://www.google.com/search?q=how+to+buy+${getTokenSymbol(spaceId)}+token`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg font-semibold text-xs hover:from-pink-600 hover:to-purple-600 transition-all shadow-sm"
+                  >
+                    Search how to buy {getTokenSymbol(spaceId)} →
+                  </a>
+                )}
                 <a
                   href={`https://app.1inch.io/`}
                   target="_blank"
