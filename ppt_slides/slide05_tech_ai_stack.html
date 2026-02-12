@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #ffffff; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #f8f9fa;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  background: #1a1a2e;
+  padding: 18pt 40pt;
+}
+.header h1 {
+  color: #ffffff;
+  font-size: 26pt;
+  margin: 0;
+}
+.content {
+  display: flex;
+  padding: 15pt 40pt;
+  gap: 15pt;
+}
+.column {
+  flex: 1;
+  background: #ffffff;
+  padding: 12pt;
+  border-radius: 8pt;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.column h3 {
+  color: #e94560;
+  font-size: 12pt;
+  margin: 0 0 10pt 0;
+  padding-bottom: 6pt;
+}
+.tech-item {
+  margin-bottom: 8pt;
+}
+.tech-name {
+  font-weight: bold;
+  color: #0f3460;
+  font-size: 10pt;
+}
+.tech-desc {
+  color: #666666;
+  font-size: 8pt;
+}
+.ai-box {
+  background: #fff3cd;
+  padding: 10pt;
+  border-radius: 6pt;
+  margin-top: 8pt;
+}
+.ai-box h4 {
+  color: #0f3460;
+  font-size: 10pt;
+  margin: 0 0 5pt 0;
+}
+.ai-box p {
+  color: #333333;
+  font-size: 8pt;
+  margin: 0;
+  line-height: 1.3;
+}
+.highlight {
+  background: #e94560;
+  color: #ffffff;
+  padding: 2pt 5pt;
+  border-radius: 3pt;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Tech Stack: Modern, Fast, AI-Native</h1>
+</div>
+<div class="content">
+  <div class="column">
+    <h3>Frontend</h3>
+    <div class="tech-item">
+      <p class="tech-name">React 19 + Vite 6</p>
+      <p class="tech-desc">Concurrent features, 50ms HMR</p>
+    </div>
+    <div class="tech-item">
+      <p class="tech-name">wagmi 2 + viem 2</p>
+      <p class="tech-desc">TypeScript-native Web3 hooks</p>
+    </div>
+    <div class="tech-item">
+      <p class="tech-name">Tailwind CSS</p>
+      <p class="tech-desc">Utility-first responsive design</p>
+    </div>
+    <h3 style="margin-top: 12pt;">Backend</h3>
+    <div class="tech-item">
+      <p class="tech-name">Hono + TypeScript</p>
+      <p class="tech-desc">5KB, edge-compatible, 3x faster than Express</p>
+    </div>
+    <div class="tech-item">
+      <p class="tech-name">PostgreSQL + Redis</p>
+      <p class="tech-desc">User data, cache, leaderboards</p>
+    </div>
+  </div>
+  <div class="column">
+    <h3>Web3 Infrastructure</h3>
+    <div class="tech-item">
+      <p class="tech-name">Snapshot GraphQL API</p>
+      <p class="tech-desc">Proposal data, vote submission</p>
+    </div>
+    <div class="tech-item">
+      <p class="tech-name">EIP-712 Signatures</p>
+      <p class="tech-desc">Off-chain voting, zero gas fees</p>
+    </div>
+    <div class="tech-item">
+      <p class="tech-name">Alchemy/Infura RPC</p>
+      <p class="tech-desc">Multi-chain data queries</p>
+    </div>
+    <div class="ai-box">
+      <h4><span class="highlight">DeepSeek R1</span> AI Engine</h4>
+      <p><b>32K context</b> | <b>MMLU 89.5%</b> | <b>30 tokens/sec</b></p>
+      <p style="margin-top: 5pt;"><b>Cost: $0.27/M tokens</b> = 20x cheaper than GPT-4</p>
+      <p style="margin-top: 5pt;">At scale: $2,448/year vs $49,000/year</p>
+    </div>
+  </div>
+  <div class="column">
+    <h3>AI Analysis Pipeline</h3>
+    <div class="tech-item">
+      <p class="tech-name">1. Proposal Ingestion</p>
+      <p class="tech-desc">Fetch full text from Snapshot API</p>
+    </div>
+    <div class="tech-item">
+      <p class="tech-name">2. Strategy Matching</p>
+      <p class="tech-desc">Match against user risk profile</p>
+    </div>
+    <div class="tech-item">
+      <p class="tech-name">3. Risk Assessment</p>
+      <p class="tech-desc">Low/Medium/High/Critical grading</p>
+    </div>
+    <div class="tech-item">
+      <p class="tech-name">4. Security Scan</p>
+      <p class="tech-desc">Contract verification, treasury impact</p>
+    </div>
+    <div class="tech-item">
+      <p class="tech-name">5. JSON Output</p>
+      <p class="tech-desc">Structured recommendation (3-5s)</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

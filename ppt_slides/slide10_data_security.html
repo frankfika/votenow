@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #ffffff; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #f8f9fa;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  background: #1a1a2e;
+  padding: 20pt 40pt;
+}
+.header h1 {
+  color: #ffffff;
+  font-size: 28pt;
+  margin: 0;
+}
+.content {
+  padding: 15pt 40pt;
+  display: flex;
+  flex-direction: column;
+  gap: 12pt;
+}
+.data-row {
+  display: flex;
+  gap: 12pt;
+}
+.data-box {
+  flex: 1;
+  background: #ffffff;
+  padding: 10pt 12pt;
+  border-radius: 6pt;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.data-box h4 {
+  color: #e94560;
+  font-size: 10pt;
+  margin: 0 0 4pt 0;
+}
+.data-box p {
+  color: #333333;
+  font-size: 8pt;
+  margin: 0;
+  line-height: 1.3;
+}
+.source-tag {
+  display: inline-block;
+  background: #0f3460;
+  color: #ffffff;
+  padding: 2pt 6pt;
+  border-radius: 3pt;
+  font-size: 7pt;
+  margin-top: 4pt;
+}
+.security-box {
+  background: #1a1a2e;
+  color: #ffffff;
+  padding: 12pt 15pt;
+  border-radius: 8pt;
+}
+.security-box h3 {
+  color: #e94560;
+  font-size: 12pt;
+  margin: 0 0 8pt 0;
+}
+.security-grid {
+  display: flex;
+  gap: 15pt;
+}
+.sec-item {
+  flex: 1;
+}
+.sec-item h4 {
+  font-size: 10pt;
+  margin: 0 0 4pt 0;
+  color: #e94560;
+}
+.sec-item p {
+  font-size: 8pt;
+  margin: 0;
+  color: #a0a0a0;
+  line-height: 1.3;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Data Sources & Security</h1>
+</div>
+<div class="content">
+  <div class="data-row">
+    <div class="data-box">
+      <h4>Proposal Data</h4>
+      <p>Title, description, timing from Snapshot GraphQL API</p>
+      <span class="source-tag">Snapshot API</span>
+    </div>
+    <div class="data-box">
+      <h4>Voting Power</h4>
+      <p>Token balance at snapshot block via Alchemy RPC</p>
+      <span class="source-tag">Alchemy/Infura</span>
+    </div>
+    <div class="data-box">
+      <h4>Vote Submission</h4>
+      <p>EIP-712 signature submitted to Snapshot Hub</p>
+      <span class="source-tag">Snapshot Hub</span>
+    </div>
+    <div class="data-box">
+      <h4>User Data</h4>
+      <p>Points, levels, redemptions in PostgreSQL</p>
+      <span class="source-tag">Our Database</span>
+    </div>
+  </div>
+  <div class="security-box">
+    <h3>Security by Design</h3>
+    <div class="security-grid">
+      <div class="sec-item">
+        <h4>No Custody</h4>
+        <p>We never hold user tokens. Voting power queried from chain.</p>
+      </div>
+      <div class="sec-item">
+        <h4>Off-Chain Signatures</h4>
+        <p>EIP-712 only. No smart contract risk, no gas fees.</p>
+      </div>
+      <div class="sec-item">
+        <h4>AI Safety</h4>
+        <p>Advisory disclaimers, community flagging, human review for >$10M.</p>
+      </div>
+      <div class="sec-item">
+        <h4>API Security</h4>
+        <p>Rate limiting, CORS whitelist, Zod validation. No SQL injection.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

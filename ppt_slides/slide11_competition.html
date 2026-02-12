@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #ffffff; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #f8f9fa;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  background: #1a1a2e;
+  padding: 20pt 40pt;
+}
+.header h1 {
+  color: #ffffff;
+  font-size: 28pt;
+  margin: 0;
+}
+.content {
+  padding: 15pt 40pt;
+  display: flex;
+  flex-direction: column;
+  gap: 12pt;
+}
+.compare-table {
+  background: #ffffff;
+  border-radius: 8pt;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.row {
+  display: flex;
+  border-bottom: 1pt solid #eeeeee;
+}
+.row:last-child {
+  border-bottom: none;
+}
+.row.header-row {
+  background: #0f3460;
+  color: #ffffff;
+}
+.cell {
+  flex: 1;
+  padding: 8pt 10pt;
+  font-size: 8pt;
+}
+.cell p {
+  margin: 0;
+}
+.cell.header-cell {
+  font-weight: bold;
+  font-size: 9pt;
+}
+.cell.competitor {
+  background: #f0f0f0;
+  font-weight: bold;
+}
+.cell.votenow {
+  background: #d4edda;
+}
+.check {
+  color: #28a745;
+  font-weight: bold;
+}
+.xmark {
+  color: #dc3545;
+}
+.moats {
+  display: flex;
+  gap: 12pt;
+}
+.moat {
+  flex: 1;
+  background: #1a1a2e;
+  color: #ffffff;
+  padding: 10pt;
+  border-radius: 6pt;
+}
+.moat h4 {
+  color: #e94560;
+  font-size: 10pt;
+  margin: 0 0 4pt 0;
+}
+.moat p {
+  font-size: 8pt;
+  margin: 0;
+  color: #a0a0a0;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Competitive Landscape</h1>
+</div>
+<div class="content">
+  <div class="compare-table">
+    <div class="row header-row">
+      <div class="cell header-cell"><p>Feature</p></div>
+      <div class="cell header-cell"><p>Snapshot</p></div>
+      <div class="cell header-cell"><p>Tally</p></div>
+      <div class="cell header-cell"><p>Boardroom</p></div>
+      <div class="cell header-cell"><p>VoteNow</p></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p><b>Multi-DAO View</b></p></div>
+      <div class="cell"><p class="xmark">✗ Single DAO</p></div>
+      <div class="cell"><p class="xmark">✗ Limited</p></div>
+      <div class="cell"><p class="check">✓ View only</p></div>
+      <div class="cell votenow"><p class="check"><b>✓ Full voting</b></p></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p><b>AI Analysis</b></p></div>
+      <div class="cell"><p class="xmark">✗ None</p></div>
+      <div class="cell"><p class="xmark">✗ None</p></div>
+      <div class="cell"><p class="xmark">✗ None</p></div>
+      <div class="cell votenow"><p class="check"><b>✓ DeepSeek R1</b></p></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p><b>Rewards</b></p></div>
+      <div class="cell"><p class="xmark">✗ None</p></div>
+      <div class="cell"><p class="xmark">✗ None</p></div>
+      <div class="cell"><p class="xmark">✗ None</p></div>
+      <div class="cell votenow"><p class="check"><b>✓ Points → USDC/NFT</b></p></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p><b>Chain Support</b></p></div>
+      <div class="cell"><p>All (hub)</p></div>
+      <div class="cell"><p class="xmark">Ethereum only</p></div>
+      <div class="cell"><p>Multiple</p></div>
+      <div class="cell votenow"><p class="check"><b>4 chains → 10+</b></p></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p><b>Cost</b></p></div>
+      <div class="cell"><p>Free</p></div>
+      <div class="cell"><p>Free</p></div>
+      <div class="cell"><p>Free</p></div>
+      <div class="cell votenow"><p class="check"><b>Free + earn rewards</b></p></div>
+    </div>
+  </div>
+  <div class="moats">
+    <div class="moat">
+      <h4>AI Data Flywheel</h4>
+      <p>6 months of governance data creates irreplaceable training set</p>
+    </div>
+    <div class="moat">
+      <h4>Network Effects</h4>
+      <p>More users → better AI → more DAOs → more users</p>
+    </div>
+    <div class="moat">
+      <h4>Token Economics</h4>
+      <p>Points → $VOTE token creates sticky ecosystem</p>
+    </div>
+    <div class="moat">
+      <h4>First Mover</h4>
+      <p>Only platform with AI + aggregation + rewards</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
