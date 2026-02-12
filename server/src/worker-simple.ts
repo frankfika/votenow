@@ -99,35 +99,9 @@ app.get('/api/proposals', async (c) => {
       source: 'Snapshot',
     }));
 
-    // Add a test OnChain proposal at the beginning
-    const testOnChainProposal = {
-      id: 'onchain-compound-test-1',
-      daoId: 'compound',
-      daoName: 'Compound',
-      title: '[TEST] OnChain Governance - Buy COMP to vote!',
-      description: '## 🧪 Test Proposal for OnChain Governance\n\nThis is a **test proposal** to demonstrate on-chain voting.\n\n### How it works:\n1. This uses **current balance** (not snapshot!)\n2. Buy COMP tokens on Uniswap\n3. Click refresh button\n4. Vote immediately!\n\n**Try it**: Buy a small amount of COMP (0.01 or less) and you can vote right away.',
-      state: 'active',
-      choices: ['For', 'Against', 'Abstain'],
-      startTime: Math.floor(Date.now() / 1000) - 86400,
-      endTime: Math.floor(Date.now() / 1000) + 86400 * 7,
-      scores: [1000000, 500000, 100000],
-      scoresTotal: 1600000,
-      voteCount: 150,
-      network: '1',
-      snapshot: '0',
-      source: 'OnChain',
-      // OnChain specific fields
-      governorAddress: '0xc0Da02939E1441F497fd74F78cE7Decb17B66529', // Compound Governor Bravo
-      onChainProposalId: '1', // Test proposal ID
-      chainId: 1, // Ethereum mainnet
-    };
-
-    // Prepend test proposal
-    const allProposals = [testOnChainProposal, ...proposals];
-
     return c.json({
-      total: allProposals.length,
-      proposals: allProposals
+      total: proposals.length,
+      proposals,
     });
   } catch (err: any) {
     return c.json({ error: err.message }, 500);
