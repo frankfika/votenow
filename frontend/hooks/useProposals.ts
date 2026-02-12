@@ -72,7 +72,7 @@ function mapApiToProposal(p: any): Proposal {
       ...base,
       governanceType: 'onchain' as const,
       governorAddress: p.governorAddress || '',
-      proposalId: p.proposalId || p.id,
+      proposalId: p.onChainProposalId || p.proposalId || p.id,
       chainId: p.chainId || 1,
       quorum: p.quorum || 0,
       quorumReached: p.quorumReached || false,

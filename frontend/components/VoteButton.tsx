@@ -88,7 +88,11 @@ const VoteButton: React.FC<VoteButtonProps> = ({
   // OnChain voting hook
   const onChainVote = useOnChainVote({
     governorAddress,
-    proposalId: onChainProposalId ? BigInt(onChainProposalId) : undefined,
+    proposalId: (() => {
+      if (!onChainProposalId) return undefined;
+      try { return BigInt(onChainProposalId); }
+      catch { return undefined; }
+    })(),
     chainId,
   });
 

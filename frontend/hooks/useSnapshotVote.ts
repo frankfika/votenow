@@ -33,9 +33,9 @@ export function useSnapshotVote(params: {
   const { address, isConnected } = useWallet();
 
   const [votingPower, setVotingPower] = useState<number | null>(null);
-  const [vpLoading, setVpLoading] = useState(false);
+  const [vpLoading, setVpLoading] = useState(!!(isConnected && address && space && proposal));
   const [existingVote, setExistingVote] = useState<{ id: string; choice: number; created: number; vp: number } | null>(null);
-  const [existingVoteLoading, setExistingVoteLoading] = useState(false);
+  const [existingVoteLoading, setExistingVoteLoading] = useState(!!(isConnected && address && proposal));
   const [voting, setVoting] = useState(false);
   const [receipt, setReceipt] = useState<{ id: string; ipfs: string } | null>(null);
   const [pointsEarned, setPointsEarned] = useState<number | null>(null);
@@ -95,8 +95,16 @@ export function useSnapshotVote(params: {
   }, [isConnected, address, proposal]);
 
   const castVote = useCallback(async (choiceIndex: number, reason?: string) => {
-    if (!isConnected || !address || !space || !proposal) {
-      setError('Wallet not connected or missing proposal info');
+    if (!isConnected || !address) {
+      setError('Please connect your wallet to vote');
+      return;
+    }
+    if (!space) {
+      setError('Missing Snapshot space configuration');
+      return;
+    }
+    if (!proposal) {
+      setError('Missing proposal ID');
       return;
     }
 

@@ -81,8 +81,16 @@ export function useOnChainVote(params: {
   }, [vpData]);
 
   const castVote = useCallback(async (support: number) => {
-    if (!isConnected || !address || !governorAddress || !proposalId) {
-      setError('Wallet not connected or missing proposal info');
+    if (!isConnected || !address) {
+      setError('Please connect your wallet to vote');
+      return;
+    }
+    if (!governorAddress) {
+      setError('Missing governor contract address');
+      return;
+    }
+    if (!proposalId) {
+      setError('Missing on-chain proposal ID');
       return;
     }
 

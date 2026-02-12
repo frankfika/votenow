@@ -19,7 +19,6 @@ export const wagmiConfig = createConfig({
     [polygon.id]: http(),
   },
   ssr: false,
-  storage: null,
 });
 
 export function useWallet() {

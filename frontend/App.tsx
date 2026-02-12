@@ -130,7 +130,7 @@ function AppContent() {
 
 function App() {
   return (
-    <WagmiProvider config={wagmiConfig} reconnectOnMount={false}>
+    <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <AppContent />
       </QueryClientProvider>
