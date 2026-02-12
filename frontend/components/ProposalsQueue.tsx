@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Proposal } from '../types';
+import { Proposal, isSnapshotProposal, isOnChainProposal } from '../types';
 import { ChevronRight, Clock, Network, ArrowRightLeft } from 'lucide-react';
 import { useWallet } from '../hooks/useWallet';
 
@@ -16,6 +16,13 @@ const CHAIN_FILTERS = [
   { id: '137', label: 'Polygon' },
 ];
 
+/** Get chain ID string for a proposal regardless of type */
+function getProposalChainId(p: Proposal): string {
+  if (isSnapshotProposal(p)) return p.network || '1';
+  if (isOnChainProposal(p)) return String(p.chainId);
+  return '1';
+}
+
 const ProposalsQueue: React.FC<ProposalsQueueProps> = ({ proposals, onSelectProposal }) => {
   const [chainFilter, setChainFilter] = useState('all');
   const [groupByChain, setGroupByChain] = useState(true);
@@ -25,13 +32,13 @@ const ProposalsQueue: React.FC<ProposalsQueueProps> = ({ proposals, onSelectProp
 
   const filtered = chainFilter === 'all'
     ? proposals
-    : proposals.filter((p) => p.snapshotNetwork === chainFilter);
+    : proposals.filter((p) => getProposalChainId(p) === chainFilter);
 
   // Group proposals by chain
   const groupedProposals: Record<string, Proposal[]> = {};
   if (groupByChain) {
     filtered.forEach(p => {
-      const chainId = p.snapshotNetwork || 'unknown';
+      const chainId = getProposalChainId(p);
       if (!groupedProposals[chainId]) {
         groupedProposals[chainId] = [];
       }
@@ -164,7 +171,7 @@ const ProposalsQueue: React.FC<ProposalsQueueProps> = ({ proposals, onSelectProp
                key={proposal.id}
                proposal={proposal}
                onSelect={onSelectProposal}
-               isUserChain={proposal.snapshotNetwork === userChainId}
+               isUserChain={getProposalChainId(proposal) === userChainId}
                userChainId={userChainId}
              />
            ))
@@ -207,17 +214,20 @@ const ProposalCard: React.FC<{
           }`}>
             {proposal.daoName}
           </span>
-          {proposal.snapshotNetwork && (
-            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
-              isUserChain
-                ? 'bg-emerald-500 text-white'
-                : proposal.snapshotNetwork !== '1'
-                ? 'bg-indigo-50 text-indigo-500'
-                : 'bg-zinc-100 text-zinc-500'
-            }`}>
-              {CHAIN_FILTERS.find(c => c.id === proposal.snapshotNetwork)?.label || `Chain ${proposal.snapshotNetwork}`}
-            </span>
-          )}
+          {(() => {
+            const chainId = getProposalChainId(proposal);
+            return (
+              <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                isUserChain
+                  ? 'bg-emerald-500 text-white'
+                  : chainId !== '1'
+                  ? 'bg-indigo-50 text-indigo-500'
+                  : 'bg-zinc-100 text-zinc-500'
+              }`}>
+                {CHAIN_FILTERS.find(c => c.id === chainId)?.label || `Chain ${chainId}`}
+              </span>
+            );
+          })()}
           <span className="text-xs text-zinc-400 font-mono">#{proposal.displayId || proposal.id.slice(0, 8)}</span>
         </div>
         <h3 className={`text-base font-bold truncate transition-colors ${
@@ -234,10 +244,16 @@ const ProposalCard: React.FC<{
           <Clock size={12} /> {proposal.endDate}
         </div>
         <div className="w-32 h-2 bg-zinc-100 rounded-full overflow-hidden">
-          <div
-            className={`h-full rounded-full ${isUserChain ? 'bg-emerald-600' : 'bg-zinc-800'}`}
-            style={{ width: `${(proposal.votesFor / Math.max(proposal.votesFor + proposal.votesAgainst, 1)) * 100}%` }}
-          />
+          {(() => {
+            const votesFor = isSnapshotProposal(proposal) ? (proposal.scores?.[0] || 0) : proposal.votesFor;
+            const votesAgainst = isSnapshotProposal(proposal) ? (proposal.scores?.[1] || 0) : proposal.votesAgainst;
+            return (
+              <div
+                className={`h-full rounded-full ${isUserChain ? 'bg-emerald-600' : 'bg-zinc-800'}`}
+                style={{ width: `${(votesFor / Math.max(votesFor + votesAgainst, 1)) * 100}%` }}
+              />
+            );
+          })()}
         </div>
       </div>
 

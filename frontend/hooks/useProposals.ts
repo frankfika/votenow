@@ -66,35 +66,35 @@ function mapApiToProposal(p: any): Proposal {
     endDate,
   };
 
-  // Snapshot-specific fields
-  if (p.space || p.snapshotNetwork || p.source === 'Snapshot') {
+  // OnChain-specific fields
+  if (p.source === 'OnChain') {
     return {
       ...base,
-      governanceType: 'snapshot' as const,
-      snapshotId: p.id,
-      spaceId: p.space?.id || p.daoId || 'unknown',
-      snapshotBlock: String(p.snapshot || ''),
-      network: String(p.network || p.snapshotNetwork || '1'),
-      choices: p.choices || ['For', 'Against', 'Abstain'],
-      scores: p.scores || [0, 0, 0],
-      scoresTotal: p.scores_total || p.scoresTotal || 0,
-      voteCount: p.votes || p.voteCount || 0,
-      type: p.type || 'single-choice',
+      governanceType: 'onchain' as const,
+      governorAddress: p.governorAddress || '',
+      proposalId: p.proposalId || p.id,
+      chainId: p.chainId || 1,
+      quorum: p.quorum || 0,
+      quorumReached: p.quorumReached || false,
+      votesFor: p.votesFor || p.scores?.[0] || 0,
+      votesAgainst: p.votesAgainst || p.scores?.[1] || 0,
+      votesAbstain: p.votesAbstain || p.scores?.[2] || 0,
     };
   }
 
-  // OnChain-specific fields (fallback)
+  // Snapshot-specific fields (default for source === 'Snapshot' or unknown)
   return {
     ...base,
-    governanceType: 'onchain' as const,
-    governorAddress: p.governorAddress || '',
-    proposalId: p.proposalId || p.id,
-    chainId: p.chainId || 1,
-    quorum: p.quorum || 0,
-    quorumReached: p.quorumReached || false,
-    votesFor: p.votesFor || p.scores?.[0] || 0,
-    votesAgainst: p.votesAgainst || p.scores?.[1] || 0,
-    votesAbstain: p.votesAbstain || p.scores?.[2] || 0,
+    governanceType: 'snapshot' as const,
+    snapshotId: p.id,
+    spaceId: p.space?.id || p.daoId || 'unknown',
+    snapshotBlock: String(p.snapshot || ''),
+    network: String(p.network || p.snapshotNetwork || '1'),
+    choices: p.choices || ['For', 'Against', 'Abstain'],
+    scores: p.scores || [0, 0, 0],
+    scoresTotal: p.scores_total || p.scoresTotal || 0,
+    voteCount: p.votes || p.voteCount || 0,
+    type: p.type || 'single-choice',
   };
 }
 

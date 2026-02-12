@@ -212,11 +212,22 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({ proposal, onBack }) => 
                   <VoteButton
                     proposalId={proposal.id}
                     recommendation={msg.data.recommendation}
-                    spaceId={proposal.spaceId}
-                    snapshotId={proposal.snapshotId}
-                    choices={proposal.choices}
-                    proposalType={proposal.type}
-                    snapshotBlock={'snapshotBlock' in proposal ? proposal.snapshotBlock : undefined}
+                    {...(isSnapshotProposal(proposal)
+                      ? {
+                          source: 'Snapshot' as const,
+                          spaceId: proposal.spaceId,
+                          snapshotId: proposal.snapshotId,
+                          choices: proposal.choices,
+                          proposalType: proposal.type,
+                          snapshotBlock: proposal.snapshotBlock,
+                        }
+                      : {
+                          source: 'OnChain' as const,
+                          governorAddress: proposal.governorAddress as `0x${string}`,
+                          onChainProposalId: proposal.proposalId,
+                          chainId: proposal.chainId,
+                        }
+                    )}
                   />
                 </div>
               )}
