@@ -4,7 +4,7 @@ import { analyzeProposal, chatWithAgent } from '../services/api';
 import RiskBadge from './RiskBadge';
 import VoteButton from './VoteButton';
 import {
-  ArrowLeft, Cpu, Send, Sparkles, X, FileText, MessageCircle
+  ArrowLeft, Cpu, Send, Sparkles, X, FileText, MessageCircle, Network
 } from 'lucide-react';
 
 interface ProposalDetailProps {
@@ -79,6 +79,24 @@ const ProposalDetail: React.FC<ProposalDetailProps> = ({ proposal, onBack }) => 
   const DocumentPanel = () => (
     <div className="h-full overflow-y-auto custom-scrollbar p-10 bg-gradient-to-b from-white/50 to-zinc-50/50">
       <div className="max-w-2xl mx-auto pb-10">
+        {/* Network Badge */}
+        {proposal.snapshotNetwork && (
+          <div className="mb-6 flex items-center gap-2 text-xs">
+            <div className="px-3 py-1.5 bg-indigo-50 border border-indigo-100 rounded-lg flex items-center gap-2">
+              <Network size={12} className="text-indigo-600" />
+              <span className="font-semibold text-indigo-700">
+                Network: {proposal.snapshotNetwork === '1' ? 'Ethereum' :
+                         proposal.snapshotNetwork === '137' ? 'Polygon' :
+                         proposal.snapshotNetwork === '42161' ? 'Arbitrum' :
+                         proposal.snapshotNetwork === '10' ? 'Optimism' :
+                         `Chain ${proposal.snapshotNetwork}`}
+              </span>
+            </div>
+            <span className="text-zinc-400">•</span>
+            <span className="text-zinc-500 font-medium">{proposal.daoName}</span>
+          </div>
+        )}
+
         <div className="flex gap-2 mb-8">
           {proposal.tags.map(tag => (
             <span key={tag} className="px-3 py-1 rounded-full bg-white border border-zinc-200 text-xs font-bold text-zinc-500 shadow-sm">

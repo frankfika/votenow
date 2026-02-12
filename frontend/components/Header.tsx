@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ activeView, onChangeView }) => {
   const navItems = [
     { id: 'dashboard', label: 'Home', icon: <Home size={18} /> },
     { id: 'proposals', label: 'Inbox', icon: <Inbox size={18} /> },
-    { id: 'rewards', label: 'Rewards', icon: <Gift size={18} /> },
+    { id: 'rewards', label: 'Points', icon: <Gift size={18} /> },
     { id: 'history', label: 'Activity', icon: <Activity size={18} /> },
     { id: 'settings', label: 'Config', icon: <Zap size={18} /> },
   ];

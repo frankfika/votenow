@@ -136,14 +136,35 @@ const VoteButton: React.FC<VoteButtonProps> = ({
       )}
 
       {isConnected && votingPower !== null && (
-        <div className={`flex items-center justify-center gap-2 text-xs font-medium mb-2 ${hasNoVP ? 'text-amber-600' : 'text-zinc-500'}`}>
-          {hasNoVP ? (
-            <>
-              <AlertTriangle size={12} />
-              No voting power in this space
-            </>
-          ) : (
-            <>VP: {Math.round(votingPower).toLocaleString()}</>
+        <div className="mb-2 space-y-1">
+          <div className={`flex items-center justify-center gap-2 text-xs font-medium ${hasNoVP ? 'text-amber-600' : 'text-zinc-500'}`}>
+            {hasNoVP ? (
+              <>
+                <AlertTriangle size={12} />
+                No voting power in this space
+              </>
+            ) : (
+              <>VP: {Math.round(votingPower).toLocaleString()}</>
+            )}
+          </div>
+          {hasNoVP && (
+            <div className="text-[10px] text-zinc-500 text-center max-w-sm mx-auto leading-relaxed bg-amber-50 border border-amber-100 rounded-lg p-3 space-y-2">
+              <p className="mb-1">
+                <span className="font-semibold text-amber-700">Why can't I vote?</span>
+              </p>
+              <p className="mb-2">
+                Snapshot voting requires holding the DAO's governance tokens at the proposal's snapshot block height.
+                You need to own {spaceId ? `${spaceId.toUpperCase().split('.')[0]} governance tokens` : 'the DAO governance token'} to participate in voting.
+              </p>
+              <a
+                href={`https://www.google.com/search?q=how+to+buy+${spaceId ? spaceId.split('.')[0] : 'DAO'}+token`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-amber-700 hover:text-amber-900 font-semibold underline"
+              >
+                How to get tokens →
+              </a>
+            </div>
           )}
         </div>
       )}

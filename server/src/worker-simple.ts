@@ -12,11 +12,19 @@ const app = new Hono();
 // Activity log (in-memory)
 const activityLog: any[] = [];
 
-// CORS
+// CORS - Allow all Cloudflare Pages preview URLs
 app.use('*', cors({
-  origin: ['https://votenow-86u.pages.dev', 'http://localhost:3000'],
-  allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowHeaders: ['Content-Type'],
+  origin: (origin) => {
+    // Allow production, localhost, and all Cloudflare Pages preview URLs
+    if (!origin) return 'https://votenow-86u.pages.dev';
+    if (origin.includes('votenow-86u.pages.dev') || origin.includes('localhost')) {
+      return origin;
+    }
+    return 'https://votenow-86u.pages.dev';
+  },
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
 }));
 
 // Health check

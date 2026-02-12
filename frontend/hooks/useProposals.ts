@@ -20,8 +20,8 @@ export function useProposals(dao?: string) {
         daoName: p.space?.name || p.daoName || 'Unknown',
         source: 'Snapshot' as const,
         title: p.title || 'Untitled',
-        description: p.body?.slice(0, 200) || p.description || '',
-        fullContent: p.body || p.fullContent || '',
+        description: (p.description || p.body || '').slice(0, 200),
+        fullContent: p.description || p.body || '',
         status: p.state === 'active' ? ProposalStatus.ACTIVE
           : p.state === 'closed' ? ProposalStatus.PASSED
           : p.status || ProposalStatus.PENDING,
