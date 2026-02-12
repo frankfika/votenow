@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #ffffff; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #f8f9fa;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  background: #1a1a2e;
+  padding: 20pt 40pt;
+}
+.header h1 {
+  color: #ffffff;
+  font-size: 28pt;
+  margin: 0;
+}
+.content {
+  padding: 20pt 40pt;
+  display: flex;
+  flex-direction: column;
+  gap: 12pt;
+}
+.compare-table {
+  background: #ffffff;
+  border-radius: 8pt;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.row {
+  display: flex;
+  border-bottom: 1pt solid #eeeeee;
+}
+.row:last-child {
+  border-bottom: none;
+}
+.row.header-row {
+  background: #0f3460;
+  color: #ffffff;
+}
+.cell {
+  flex: 1;
+  padding: 8pt 12pt;
+  font-size: 9pt;
+}
+.cell p {
+  margin: 0;
+}
+.cell.header-cell {
+  font-weight: bold;
+  font-size: 10pt;
+}
+.highlight-snapshot {
+  background: #d4edda;
+}
+.highlight-chain {
+  background: #fff3cd;
+}
+.note {
+  background: #e7f3ff;
+  padding: 12pt 15pt;
+  border-radius: 6pt;
+  border-left: 4pt solid #0f3460;
+}
+.note h4 {
+  margin: 0 0 6pt 0;
+  color: #0f3460;
+  font-size: 11pt;
+}
+.note p {
+  margin: 0;
+  color: #333333;
+  font-size: 9pt;
+  line-height: 1.4;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Governance 101: Snapshot vs On-Chain</h1>
+</div>
+<div class="content">
+  <div class="compare-table">
+    <div class="row header-row">
+      <div class="cell header-cell"><p>Dimension</p></div>
+      <div class="cell header-cell highlight-snapshot"><p>Snapshot (We Support)</p></div>
+      <div class="cell header-cell highlight-chain"><p>On-Chain</p></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p><b>What is Proposal</b></p></div>
+      <div class="cell highlight-snapshot"><p>JSON data (title, desc)</p></div>
+      <div class="cell highlight-chain"><p>Smart contract code</p></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p><b>Voting Cost</b></p></div>
+      <div class="cell highlight-snapshot"><p><b>0 gas (free)</b></p></div>
+      <div class="cell highlight-chain"><p>$5-50 gas/vote</p></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p><b>Market Share</b></p></div>
+      <div class="cell highlight-snapshot"><p><b>80% of DAOs</b></p></div>
+      <div class="cell highlight-chain"><p>Large protocols only</p></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p><b>Examples</b></p></div>
+      <div class="cell highlight-snapshot"><p>Uniswap, Arbitrum, ENS</p></div>
+      <div class="cell highlight-chain"><p>MakerDAO, Compound</p></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p><b>Execution</b></p></div>
+      <div class="cell highlight-snapshot"><p>Multi-sig manual</p></div>
+      <div class="cell highlight-chain"><p>Contract auto-execute</p></div>
+    </div>
+  </div>
+  <div class="note">
+    <h4>Why Snapshot First?</h4>
+    <p>1. Large market (80% share) 2. Better UX (free voting) 3. Mature tech 4. Roadmap: Phase 2 add on-chain reading, Phase 3 full on-chain voting</p>
+  </div>
+</div>
+</body>
+</html>

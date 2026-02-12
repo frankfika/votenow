@@ -27,19 +27,26 @@ app.get('/api/health', (c) => c.json({
   version: '1.0.0',
 }));
 
-// Mock proposals endpoint (replace with actual Snapshot integration)
+// Proposals endpoint with full DAO list
 app.get('/api/proposals', async (c) => {
   try {
     const SNAPSHOT_API = 'https://hub.snapshot.org/graphql';
 
+    const TRACKED_SPACES = [
+      'aave.eth', 'uniswapgovernance.eth', 'curve-dao.eth', 'compoundgrants.eth',
+      'arbitrumfoundation.eth', 'optimismgov.eth', 'stgdao.eth', 'polygonfoundation.eth',
+      'lido-snapshot.eth', 'balancer.eth', 'sushigov.eth', 'hop.eth', '1inch.eth',
+      'ens.eth', 'safe.eth', 'gitcoindao.eth', 'thegraph.eth',
+      'paraswap-dao.eth', 'olympusdao.eth', 'apecoin.eth'
+    ];
+
     const query = `
       query {
         proposals(
-          first: 20,
+          first: 50,
           skip: 0,
           where: {
-            space_in: ["aave.eth", "uniswapgovernance.eth", "arbitrumfoundation.eth"],
-            state: "active"
+            space_in: ${JSON.stringify(TRACKED_SPACES)}
           },
           orderBy: "created",
           orderDirection: desc
@@ -79,55 +86,60 @@ app.get('/api/proposals', async (c) => {
   }
 });
 
-// DAOs list
+// DAOs list - Full 20 DAOs
 app.get('/api/daos', (c) => {
   const daos = [
-    {
-      id: 'aave.eth',
-      name: 'Aave',
-      chain: 'ethereum',
-      tier: 1,
-      pointsPerVote: 100,
-      isActive: true,
-    },
-    {
-      id: 'uniswapgovernance.eth',
-      name: 'Uniswap',
-      chain: 'ethereum',
-      tier: 1,
-      pointsPerVote: 100,
-      isActive: true,
-    },
-    {
-      id: 'arbitrumfoundation.eth',
-      name: 'Arbitrum DAO',
-      chain: 'arbitrum',
-      tier: 2,
-      pointsPerVote: 80,
-      isActive: true,
-    },
+    // Tier 1 - Major DeFi (100 pts)
+    { id: 'aave.eth', name: 'Aave', chain: 'ethereum', tier: 1, pointsPerVote: 100, isActive: true },
+    { id: 'uniswapgovernance.eth', name: 'Uniswap', chain: 'ethereum', tier: 1, pointsPerVote: 100, isActive: true },
+    { id: 'curve-dao.eth', name: 'Curve DAO', chain: 'ethereum', tier: 1, pointsPerVote: 100, isActive: true },
+    { id: 'compoundgrants.eth', name: 'Compound', chain: 'ethereum', tier: 1, pointsPerVote: 100, isActive: true },
+
+    // Tier 2 - L2 & Infrastructure (80 pts)
+    { id: 'arbitrumfoundation.eth', name: 'Arbitrum DAO', chain: 'arbitrum', tier: 2, pointsPerVote: 80, isActive: true },
+    { id: 'optimismgov.eth', name: 'Optimism', chain: 'optimism', tier: 2, pointsPerVote: 80, isActive: true },
+    { id: 'stgdao.eth', name: 'Stargate', chain: 'ethereum', tier: 2, pointsPerVote: 80, isActive: true },
+    { id: 'polygonfoundation.eth', name: 'Polygon', chain: 'polygon', tier: 2, pointsPerVote: 80, isActive: true },
+
+    // Tier 3 - DeFi & Liquidity (60 pts)
+    { id: 'lido-snapshot.eth', name: 'Lido', chain: 'ethereum', tier: 3, pointsPerVote: 60, isActive: true },
+    { id: 'balancer.eth', name: 'Balancer', chain: 'ethereum', tier: 3, pointsPerVote: 60, isActive: true },
+    { id: 'sushigov.eth', name: 'SushiSwap', chain: 'ethereum', tier: 3, pointsPerVote: 60, isActive: true },
+    { id: 'hop.eth', name: 'Hop Protocol', chain: 'ethereum', tier: 3, pointsPerVote: 60, isActive: true },
+    { id: '1inch.eth', name: '1inch', chain: 'ethereum', tier: 3, pointsPerVote: 60, isActive: true },
+
+    // Tier 4 - Infrastructure & Tools (60 pts)
+    { id: 'ens.eth', name: 'ENS', chain: 'ethereum', tier: 4, pointsPerVote: 60, isActive: true },
+    { id: 'safe.eth', name: 'Safe', chain: 'ethereum', tier: 4, pointsPerVote: 60, isActive: true },
+    { id: 'gitcoindao.eth', name: 'Gitcoin', chain: 'ethereum', tier: 4, pointsPerVote: 60, isActive: true },
+    { id: 'thegraph.eth', name: 'The Graph', chain: 'ethereum', tier: 4, pointsPerVote: 60, isActive: true },
+
+    // Tier 5 - Emerging (40 pts)
+    { id: 'paraswap-dao.eth', name: 'ParaSwap', chain: 'ethereum', tier: 5, pointsPerVote: 40, isActive: true },
+    { id: 'olympusdao.eth', name: 'Olympus DAO', chain: 'ethereum', tier: 5, pointsPerVote: 40, isActive: true },
+    { id: 'apecoin.eth', name: 'ApeCoin DAO', chain: 'ethereum', tier: 5, pointsPerVote: 40, isActive: true },
   ];
 
   return c.json({ total: daos.length, daos });
 });
 
-// Rewards
+// Rewards - Full catalog
 app.get('/api/rewards', (c) => {
   const rewards = [
-    {
-      id: 'reward-usdc-10',
-      name: '10 USDC',
-      type: 'token',
-      pointsCost: 1000,
-      stock: 100,
-    },
-    {
-      id: 'reward-arb-5',
-      name: '5 ARB Tokens',
-      type: 'token',
-      pointsCost: 500,
-      stock: 200,
-    },
+    // Tokens
+    { id: 'reward-usdc-10', name: '10 USDC', description: 'Receive 10 USDC to your wallet', type: 'token', pointsCost: 1000, stock: 100, isActive: true },
+    { id: 'reward-usdc-50', name: '50 USDC', description: 'Receive 50 USDC to your wallet', type: 'token', pointsCost: 4500, stock: 50, isActive: true },
+    { id: 'reward-arb-5', name: '5 ARB Tokens', description: 'Receive 5 ARB on Arbitrum', type: 'token', pointsCost: 500, stock: 200, isActive: true },
+
+    // NFTs
+    { id: 'reward-nft-bronze', name: 'Bronze Governance Badge', description: 'NFT badge for active participants', type: 'nft', pointsCost: 2000, stock: 500, isActive: true },
+    { id: 'reward-nft-silver', name: 'Silver Governance Badge', description: 'Rare NFT for dedicated voters', type: 'nft', pointsCost: 5000, stock: 100, isActive: true },
+    { id: 'reward-nft-gold', name: 'Gold Governance Badge', description: 'Ultra-rare NFT for legends', type: 'nft', pointsCost: 15000, stock: 20, isActive: true },
+
+    // Benefits
+    { id: 'reward-voucher-gas', name: 'Gas Fee Voucher', description: 'Reimbursement for 10 transactions', type: 'voucher', pointsCost: 300, stock: -1, isActive: true },
+    { id: 'reward-premium', name: '1 Month Premium', description: 'Unlock advanced analytics', type: 'benefit', pointsCost: 1500, stock: -1, isActive: true },
+    { id: 'reward-discount', name: '20% Fee Discount', description: '3 months platform fee discount', type: 'benefit', pointsCost: 800, stock: -1, isActive: true },
   ];
 
   return c.json({ total: rewards.length, rewards });
