@@ -61,6 +61,7 @@ export const DAO_CONFIGS: Omit<DAOConfig, 'addedAt'>[] = [
     chain: 'ethereum',
     governanceType: GovernanceType.BOTH,
     snapshotSpace: 'curve-dao.eth',
+    tokenAddress: '0xD533a949740bb3306d119CC777fa900bA034cd52', // CRV
     tier: 1,
     pointsPerVote: 100,
     isActive: true,
@@ -169,6 +170,7 @@ export const DAO_CONFIGS: Omit<DAOConfig, 'addedAt'>[] = [
     chain: 'polygon',
     governanceType: GovernanceType.SNAPSHOT,
     snapshotSpace: 'polygonfoundation.eth',
+    tokenAddress: '0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0', // MATIC
     tier: 2,
     pointsPerVote: 80,
     isActive: true,
@@ -190,6 +192,7 @@ export const DAO_CONFIGS: Omit<DAOConfig, 'addedAt'>[] = [
     chain: 'ethereum',
     governanceType: GovernanceType.BOTH,
     snapshotSpace: 'lido-snapshot.eth',
+    tokenAddress: '0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32', // LDO
     tier: 3,
     pointsPerVote: 60,
     isActive: true,

@@ -1,84 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useWallet } from '../hooks/useWallet';
 import { useSnapshotVote } from '../hooks/useSnapshotVote';
 import { useOnChainVote } from '../hooks/useOnChainVote';
 import { Check, X, Loader2, ExternalLink, AlertTriangle, Award, RefreshCw } from 'lucide-react';
+import { DAO_CONFIGS } from '../../shared/config';
 
-// DAO space -> token contract address mapping (for Uniswap links)
-const SPACE_TO_TOKEN_ADDRESS: Record<string, string> = {
-  'aave.eth': '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9', // AAVE
-  'aavedao.eth': '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9', // AAVE
-  'uniswapgovernance.eth': '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984', // UNI
-  'uniswap': '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984', // UNI
-  'ens.eth': '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72', // ENS
-  'gitcoindao.eth': '0xDe30da39c46104798bB5aA3fe8B9e0e1F348163F', // GTC
-  'lido-snapshot.eth': '0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32', // LDO
-  'compoundgovernance.eth': '0xc00e94Cb662C3520282E6f5717214004A7f26888', // COMP
-  'balancer.eth': '0xba100000625a3754423978a60c9317c58a424e3D', // BAL
-  'curve.eth': '0xD533a949740bb3306d119CC777fa900bA034cd52', // CRV
-  'yearn': '0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e', // YFI
-  'sushigov.eth': '0x6B3595068778DD592e39A122f4f5a5cF09C90fE2', // SUSHI
-  'arbitrumfoundation.eth': '0x912CE59144191C1204E64559FE8253a0e49E6548', // ARB
-  'opcollective.eth': '0x4200000000000000000000000000000000000042', // OP
-  'stgdao.eth': '0xAf5191B0De278C7286d6C7CC6ab6BB8A73bA2Cd6', // STG
-  'gmx.eth': '0xfc5A1A6EB076a2C7aD06eD22C90d7E710E35ad0a', // GMX
-  '1inch.eth': '0x111111111117dC0aa78b770fA6A738034120C302', // 1INCH
-  'polygonfoundation.eth': '0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0', // MATIC
-  'safe.eth': '0x5aFE3855358E112B5647B952709E6165e1c1eEEe', // SAFE
-  'thegraph.eth': '0xc944E90C64B2c07662A292be6244BDf05Cda44a7', // GRT
-  'paraswap-dao.eth': '0xcAfE001067cDEF266AfB7Eb5A286dCFD277f3dE5', // PSP
-  'olympusdao.eth': '0x64aa3364F17a4D01c6f1751Fd97C2BD3D7e7f1D5', // OHM
-  'apecoin.eth': '0x4d224452801ACEd8B2F0aebE155379bb5D594381', // APE
-  // Aliases for different naming conventions
-  'compound-community.eth': '0xc00e94Cb662C3520282E6f5717214004A7f26888', // COMP
-  'curve-dao.eth': '0xD533a949740bb3306d119CC777fa900bA034cd52', // CRV
-  'optimismgov.eth': '0x4200000000000000000000000000000000000042', // OP
-};
+// Build mapping from DAO configs
+function getTokenAddress(spaceId?: string): string | undefined {
+  if (!spaceId) return undefined;
 
-// DAO space -> token symbol (for display)
-const SPACE_TO_TOKEN_SYMBOL: Record<string, string> = {
-  'aave.eth': 'AAVE',
-  'aavedao.eth': 'AAVE',
-  'uniswapgovernance.eth': 'UNI',
-  'uniswap': 'UNI',
-  'ens.eth': 'ENS',
-  'gitcoindao.eth': 'GTC',
-  'lido-snapshot.eth': 'LDO',
-  'compoundgovernance.eth': 'COMP',
-  'balancer.eth': 'BAL',
-  'curve.eth': 'CRV',
-  'yearn': 'YFI',
-  'sushigov.eth': 'SUSHI',
-  'arbitrumfoundation.eth': 'ARB',
-  'opcollective.eth': 'OP',
-  'stgdao.eth': 'STG',
-  'gmx.eth': 'GMX',
-  '1inch.eth': '1INCH',
-  'polygonfoundation.eth': 'MATIC',
-  'safe.eth': 'SAFE',
-  'thegraph.eth': 'GRT',
-  'paraswap-dao.eth': 'PSP',
-  'olympusdao.eth': 'OHM',
-  'apecoin.eth': 'APE',
-  // Aliases
-  'compound-community.eth': 'COMP',
-  'curve-dao.eth': 'CRV',
-  'optimismgov.eth': 'OP',
-};
+  // Find DAO by snapshotSpace
+  const dao = DAO_CONFIGS.find(d => d.snapshotSpace === spaceId);
+  if (dao?.tokenAddress) {
+    return dao.tokenAddress;
+  }
 
-// Get token symbol for display
-function getTokenSymbol(spaceId?: string): string {
-  if (!spaceId) return 'governance';
-
-  // Try direct mapping
-  if (SPACE_TO_TOKEN_SYMBOL[spaceId]) {
-    return SPACE_TO_TOKEN_SYMBOL[spaceId];
+  // Try by id
+  const daoById = DAO_CONFIGS.find(d => d.id === spaceId);
+  if (daoById?.tokenAddress) {
+    return daoById.tokenAddress;
   }
 
   // Try removing .eth suffix
   const withoutEth = spaceId.replace('.eth', '');
-  if (SPACE_TO_TOKEN_SYMBOL[withoutEth]) {
-    return SPACE_TO_TOKEN_SYMBOL[withoutEth];
+  const daoByShortId = DAO_CONFIGS.find(d => d.id.replace('.eth', '') === withoutEth);
+  if (daoByShortId?.tokenAddress) {
+    return daoByShortId.tokenAddress;
+  }
+
+  return undefined;
+}
+
+function getTokenSymbol(spaceId?: string): string {
+  if (!spaceId) return 'governance';
+
+  // Find DAO name from config
+  const dao = DAO_CONFIGS.find(d => d.snapshotSpace === spaceId || d.id === spaceId);
+  if (dao) {
+    return dao.name;
   }
 
   // Fallback: capitalize first part
@@ -110,25 +69,6 @@ function BuyTokenButton({ spaceId, variant = 'primary' }: { spaceId?: string; va
       <ExternalLink size={12} />
     </a>
   );
-}
-
-// Get token contract address for Uniswap
-function getTokenAddress(spaceId?: string): string {
-  if (!spaceId) return '';
-
-  // Try direct mapping
-  if (SPACE_TO_TOKEN_ADDRESS[spaceId]) {
-    return SPACE_TO_TOKEN_ADDRESS[spaceId];
-  }
-
-  // Try removing .eth suffix
-  const withoutEth = spaceId.replace('.eth', '');
-  if (SPACE_TO_TOKEN_ADDRESS[withoutEth]) {
-    return SPACE_TO_TOKEN_ADDRESS[withoutEth];
-  }
-
-  // No fallback - if we don't know the address, return empty
-  return '';
 }
 
 interface VoteButtonProps {
