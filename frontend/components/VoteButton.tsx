@@ -240,11 +240,14 @@ const VoteButton: React.FC<VoteButtonProps> = ({
                 <span className="font-semibold text-amber-700">Why can't I vote?</span>
               </p>
               <p className="mb-2">
-                Snapshot voting requires holding the DAO's governance tokens at the proposal's snapshot block height.
-                You need to own <span className="font-bold text-amber-800">{getTokenSymbol(spaceId)}</span> tokens to participate in voting.
+                Snapshot voting uses a <span className="font-bold text-amber-800">historical snapshot</span> from when the proposal was created.
+                You need to have owned <span className="font-bold text-amber-800">{getTokenSymbol(spaceId)}</span> tokens <span className="font-bold">at that specific block height</span> to vote.
               </p>
-              <p className="text-amber-600 font-semibold mb-2">
-                💡 Any amount works - your voting power scales with your holdings
+              <p className="text-amber-600 font-semibold mb-2 bg-amber-100 border border-amber-200 rounded px-2 py-1">
+                ⚠️ Tokens bought AFTER proposal creation won't count for this vote
+              </p>
+              <p className="text-[9px] text-zinc-600 mb-2">
+                Buy tokens now to vote on <span className="font-semibold">future proposals</span> in this DAO
               </p>
               <div className="flex gap-2 justify-center">
                 {getTokenAddress(spaceId) ? (
