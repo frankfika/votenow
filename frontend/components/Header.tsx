@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Home, Inbox, Activity, Zap, Gift, Hexagon, Award } from 'lucide-react';
+import { Home, Inbox, Activity, Zap, Gift, Hexagon, Award, Network } from 'lucide-react';
 import WalletConnect from './WalletConnect';
 import { useWallet } from '../hooks/useWallet';
 import { fetchUserPoints } from '../services/api';
@@ -9,8 +9,16 @@ interface HeaderProps {
   onChangeView: (view: string) => void;
 }
 
+const CHAIN_NAMES: Record<number, string> = {
+  1: 'Ethereum',
+  137: 'Polygon',
+  42161: 'Arbitrum',
+  10: 'Optimism',
+  11155111: 'Sepolia',
+};
+
 const Header: React.FC<HeaderProps> = ({ activeView, onChangeView }) => {
-  const { address, isConnected } = useWallet();
+  const { address, isConnected, chain } = useWallet();
   const [points, setPoints] = useState<number | null>(null);
 
   useEffect(() => {
@@ -69,6 +77,16 @@ const Header: React.FC<HeaderProps> = ({ activeView, onChangeView }) => {
         <div className="hidden sm:flex items-center gap-1 px-3 py-1.5 bg-amber-50 border border-amber-100 rounded-full">
           <Award size={14} className="text-amber-600" />
           <span className="text-xs font-bold text-amber-700">{points.toLocaleString()}</span>
+        </div>
+      )}
+
+      {/* Current Chain Badge */}
+      {isConnected && chain && (
+        <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 border border-indigo-100 rounded-full">
+          <Network size={14} className="text-indigo-600" />
+          <span className="text-xs font-bold text-indigo-700">
+            {CHAIN_NAMES[chain.id] || `Chain ${chain.id}`}
+          </span>
         </div>
       )}
 

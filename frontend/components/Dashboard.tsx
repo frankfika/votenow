@@ -55,10 +55,13 @@ const Dashboard: React.FC<DashboardProps> = ({ proposals, onSelectProposal, onCh
   const [dismissedIds, setDismissedIds] = useState<Set<string>>(new Set());
   const [chainFilter, setChainFilter] = useState('all');
   const [daoFilter, setDaoFilter] = useState('all');
-  const { isConnected } = useWallet();
+  const { isConnected, chain } = useWallet();
 
   // Get unique DAOs for filter
   const uniqueDAOsList = Array.from(new Set(proposals.map(p => p.daoName))).sort();
+
+  // Get user's current chain ID as string for comparison
+  const userChainId = chain?.id.toString();
 
   // Filter proposals
   const filteredProposals = proposals.filter(p => {
@@ -66,6 +69,10 @@ const Dashboard: React.FC<DashboardProps> = ({ proposals, onSelectProposal, onCh
     const daoMatch = daoFilter === 'all' || p.daoName === daoFilter;
     return chainMatch && daoMatch;
   });
+
+  // Group proposals: user's chain first, then others
+  const proposalsOnUserChain = filteredProposals.filter(p => p.snapshotNetwork === userChainId);
+  const proposalsOnOtherChains = filteredProposals.filter(p => p.snapshotNetwork !== userChainId);
 
   // Compute dynamic stats from filtered proposals
   const uniqueDAOs = new Set(filteredProposals.map(p => p.daoName)).size;
@@ -95,7 +102,10 @@ const Dashboard: React.FC<DashboardProps> = ({ proposals, onSelectProposal, onCh
   };
 
   // Get the next non-dismissed proposal for the hero card
-  const heroProposal = filteredProposals.find(p => !dismissedIds.has(p.id));
+  // Prioritize proposals on user's chain
+  const heroProposal = isConnected && userChainId
+    ? proposalsOnUserChain.find(p => !dismissedIds.has(p.id)) || filteredProposals.find(p => !dismissedIds.has(p.id))
+    : filteredProposals.find(p => !dismissedIds.has(p.id));
 
   return (
     <div className="space-y-8">
@@ -283,11 +293,31 @@ const Dashboard: React.FC<DashboardProps> = ({ proposals, onSelectProposal, onCh
             {heroProposal ? (
               <>
                 <div className="p-7 pb-2 relative z-10">
-                   <div className="flex items-center gap-2 mb-3">
+                   <div className="flex items-center gap-2 mb-3 flex-wrap">
                       <div className="p-1.5 bg-orange-50 rounded-lg">
                         <Flame size={18} className="text-orange-500 fill-orange-500 animate-pulse" />
                       </div>
-                      <span className="text-xs font-bold text-orange-600 uppercase tracking-wider">Critical Priority</span>
+                      <span className="text-xs font-bold text-orange-600 uppercase tracking-wider">
+                        {isConnected && heroProposal.snapshotNetwork === userChainId ? 'On Your Chain' : 'Critical Priority'}
+                      </span>
+                      {/* Network Badge */}
+                      {heroProposal.snapshotNetwork && (
+                        <span className={`text-xs font-bold px-2 py-1 rounded-lg ${
+                          isConnected && heroProposal.snapshotNetwork === userChainId
+                            ? 'bg-emerald-100 text-emerald-700 border border-emerald-200'
+                            : 'bg-indigo-100 text-indigo-700 border border-indigo-200'
+                        }`}>
+                          {heroProposal.snapshotNetwork === '1' ? 'Ethereum' :
+                           heroProposal.snapshotNetwork === '137' ? 'Polygon' :
+                           heroProposal.snapshotNetwork === '42161' ? 'Arbitrum' :
+                           heroProposal.snapshotNetwork === '10' ? 'Optimism' :
+                           `Chain ${heroProposal.snapshotNetwork}`}
+                        </span>
+                      )}
+                      {/* DAO Badge */}
+                      <span className="text-xs font-bold text-zinc-500 bg-zinc-100 px-2 py-1 rounded-lg">
+                        {heroProposal.daoName}
+                      </span>
                    </div>
                    <h3 className="text-2xl font-bold text-zinc-900 leading-tight mb-2 group-hover:text-indigo-600 transition-colors">
                       {heroProposal.title}
