@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #ffffff; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #f8f9fa;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  background: #1a1a2e;
+  padding: 20pt 40pt;
+}
+.header h1 {
+  color: #ffffff;
+  font-size: 28pt;
+  margin: 0;
+}
+.content {
+  padding: 25pt 40pt;
+}
+.flow-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10pt;
+}
+.step {
+  flex: 1;
+  background: #ffffff;
+  padding: 15pt 10pt;
+  border-radius: 8pt;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.step-num {
+  background: #e94560;
+  color: #ffffff;
+  width: 24pt;
+  height: 24pt;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 12pt;
+  margin: 0 auto 8pt auto;
+}
+.step-num p {
+  margin: 0;
+  color: #ffffff;
+  font-size: 12pt;
+  font-weight: bold;
+}
+.step-title {
+  font-weight: bold;
+  color: #0f3460;
+  font-size: 10pt;
+  margin-bottom: 5pt;
+}
+.step-desc {
+  color: #666666;
+  font-size: 8pt;
+  line-height: 1.3;
+}
+.arrow {
+  color: #e94560;
+  font-size: 20pt;
+  font-weight: bold;
+}
+.note {
+  margin-top: 20pt;
+  background: #fff3cd;
+  padding: 12pt 15pt;
+  border-radius: 6pt;
+  border-left: 4pt solid #e94560;
+}
+.note p {
+  margin: 0;
+  color: #333333;
+  font-size: 11pt;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Voting Flow: How It Actually Works</h1>
+</div>
+<div class="content">
+  <div class="flow-container">
+    <div class="step">
+      <div class="step-num"><p>1</p></div>
+      <p class="step-title">Connect Wallet</p>
+      <p class="step-desc">MetaMask, WalletConnect, Coinbase</p>
+    </div>
+    <div class="arrow"><p>→</p></div>
+    <div class="step">
+      <div class="step-num"><p>2</p></div>
+      <p class="step-title">View AI Analysis</p>
+      <p class="step-desc">Risk score, recommendation, summary</p>
+    </div>
+    <div class="arrow"><p>→</p></div>
+    <div class="step">
+      <div class="step-num"><p>3</p></div>
+      <p class="step-title">Select Vote</p>
+      <p class="step-desc">For / Against / Abstain</p>
+    </div>
+    <div class="arrow"><p>→</p></div>
+    <div class="step">
+      <div class="step-num"><p>4</p></div>
+      <p class="step-title">Sign (EIP-712)</p>
+      <p class="step-desc">Off-chain, zero gas fees</p>
+    </div>
+    <div class="arrow"><p>→</p></div>
+    <div class="step">
+      <div class="step-num"><p>5</p></div>
+      <p class="step-title">Submit to Snapshot</p>
+      <p class="step-desc">Vote recorded on-chain</p>
+    </div>
+    <div class="arrow"><p>→</p></div>
+    <div class="step">
+      <div class="step-num"><p>6</p></div>
+      <p class="step-title">Earn Points</p>
+      <p class="step-desc">40-100 pts instantly</p>
+    </div>
+  </div>
+  <div class="note">
+    <p><b>Key:</b> We don't replace Snapshot — we enhance it. Votes are submitted to Snapshot Hub (hub.snapshot.org) and visible on snapshot.io</p>
+  </div>
+</div>
+</body>
+</html>

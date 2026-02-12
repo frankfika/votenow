@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #ffffff; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #f8f9fa;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  background: #1a1a2e;
+  padding: 20pt 40pt;
+}
+.header h1 {
+  color: #ffffff;
+  font-size: 28pt;
+  margin: 0;
+}
+.content {
+  display: flex;
+  padding: 20pt 40pt;
+  gap: 25pt;
+}
+.layer {
+  flex: 1;
+  background: #ffffff;
+  padding: 15pt;
+  border-radius: 8pt;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.layer h3 {
+  color: #e94560;
+  font-size: 14pt;
+  margin: 0 0 10pt 0;
+  padding-bottom: 8pt;
+}
+.tech-item {
+  margin-bottom: 10pt;
+}
+.tech-name {
+  font-weight: bold;
+  color: #0f3460;
+  font-size: 11pt;
+}
+.tech-desc {
+  color: #666666;
+  font-size: 9pt;
+}
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e94560;
+  font-size: 24pt;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Technical Architecture: Modern Web3 Stack</h1>
+</div>
+<div class="content">
+  <div class="layer">
+    <h3>Frontend Layer</h3>
+    <div class="tech-item">
+      <p class="tech-name">React 19 + Vite 6</p>
+      <p class="tech-desc">Concurrent features, 50ms HMR</p>
+    </div>
+    <div class="tech-item">
+      <p class="tech-name">wagmi 2 + viem 2</p>
+      <p class="tech-desc">TypeScript-native Web3 hooks</p>
+    </div>
+    <div class="tech-item">
+      <p class="tech-name">Tailwind CSS</p>
+      <p class="tech-desc">Utility-first responsive design</p>
+    </div>
+    <div class="tech-item">
+      <p class="tech-name">Recharts</p>
+      <p class="tech-desc">Data visualization</p>
+    </div>
+  </div>
+  <div class="layer">
+    <h3>Backend Layer</h3>
+    <div class="tech-item">
+      <p class="tech-name">Hono (Node.js)</p>
+      <p class="tech-desc">5KB, edge-compatible, 3x faster than Express</p>
+    </div>
+    <div class="tech-item">
+      <p class="tech-name">TypeScript</p>
+      <p class="tech-desc">Full type safety, strict mode</p>
+    </div>
+    <div class="tech-item">
+      <p class="tech-name">PostgreSQL + Redis</p>
+      <p class="tech-desc">User data, cache, sessions</p>
+    </div>
+    <div class="tech-item">
+      <p class="tech-name">Vitest</p>
+      <p class="tech-desc">75+ tests, 90%+ coverage</p>
+    </div>
+  </div>
+  <div class="layer">
+    <h3>Web3 Infrastructure</h3>
+    <div class="tech-item">
+      <p class="tech-name">Snapshot GraphQL API</p>
+      <p class="tech-desc">Proposal data, vote submission</p>
+    </div>
+    <div class="tech-item">
+      <p class="tech-name">EIP-712 Signatures</p>
+      <p class="tech-desc">Off-chain voting, zero gas</p>
+    </div>
+    <div class="tech-item">
+      <p class="tech-name">Alchemy/Infura RPC</p>
+      <p class="tech-desc">Multi-chain data queries</p>
+    </div>
+    <div class="tech-item">
+      <p class="tech-name">MetaMask + WalletConnect</p>
+      <p class="tech-desc">Wallet authentication</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

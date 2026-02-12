@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #ffffff; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #f8f9fa;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  background: #1a1a2e;
+  padding: 20pt 40pt;
+}
+.header h1 {
+  color: #ffffff;
+  font-size: 28pt;
+  margin: 0;
+}
+.content {
+  display: flex;
+  padding: 20pt 40pt;
+  gap: 20pt;
+}
+.feature-card {
+  flex: 1;
+  background: #ffffff;
+  padding: 15pt;
+  border-radius: 8pt;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.feature-card h3 {
+  color: #e94560;
+  font-size: 13pt;
+  margin: 0 0 10pt 0;
+}
+.feature-card p {
+  color: #333333;
+  font-size: 10pt;
+  margin: 0 0 8pt 0;
+  line-height: 1.4;
+}
+.example {
+  background: #f0f0f0;
+  padding: 8pt;
+  border-radius: 4pt;
+  font-size: 9pt;
+  color: #666666;
+  margin-top: 8pt;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>AI Capabilities: Not Just Summaries</h1>
+</div>
+<div class="content">
+  <div class="feature-card">
+    <h3>1. Personalized Strategy Matching</h3>
+    <p>Analyzes user's token holdings and risk profile to give targeted recommendations.</p>
+    <div class="example">
+      <p>"You hold significant ETH. This proposal increases staking rewards → 85% match with your Conservative Growth strategy"</p>
+    </div>
+  </div>
+  <div class="feature-card">
+    <h3>2. Risk Assessment</h3>
+    <p>4-tier risk grading (Low/Medium/High/Critical) with technical justification.</p>
+    <div class="example">
+      <p>"Risk: HIGH - Contract upgrade with unaudited code, $5M treasury impact"</p>
+    </div>
+  </div>
+  <div class="feature-card">
+    <h3>3. Security Scanning</h3>
+    <p>Automated checks for contract addresses, treasury impact, governance attacks.</p>
+    <div class="example">
+      <p>"✓ Contract verified: Aave V3 Treasury | ⚠️ $2M token transfer requested"</p>
+    </div>
+  </div>
+  <div class="feature-card">
+    <h3>4. Conversational Research</h3>
+    <p>Users can ask follow-up questions about any proposal in natural language.</p>
+    <div class="example">
+      <p>Q: "How does this affect Aave?"</p>
+      <p>A: "This increases reserve factor by 2%, boosting protocol revenue..."</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
